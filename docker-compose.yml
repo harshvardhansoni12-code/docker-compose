@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data
+  user_app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+
+  environment:
+    DATABASE_URL: postgresql://postgres:mysecret@localhost:5432/postgres
+  ports:
+    - "3000:3000"
+  depends_on:
+    - postgres
